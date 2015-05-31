@@ -20,48 +20,50 @@ import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 
 public class Startup implements IStartup {
+  
+  public static final boolean D = false;
 
   private class PartListener implements IPartListener2 {
 
     @Override
     public void partVisible(IWorkbenchPartReference partRef) {
-//			System.out.println("partVisible");
+      if (D) System.out.println("partVisible");
     }
 
     @Override
     public void partOpened(IWorkbenchPartReference partRef) {
-//			System.out.println("partOpened");
+      if (D) System.out.println("partOpened");
       tryToAttach(partRef.getPart(false));
     }
 
     @Override
     public void partInputChanged(IWorkbenchPartReference partRef) {
-//			System.out.println("partInputChanged");
+      if (D) System.out.println("partInputChanged");
     }
 
     @Override
     public void partHidden(IWorkbenchPartReference partRef) {
-//			System.out.println("partHidden");
+      if (D) System.out.println("partHidden");
     }
 
     @Override
     public void partDeactivated(IWorkbenchPartReference partRef) {
-//			System.out.println("partDeactivated");
+      if (D) System.out.println("partDeactivated");
     }
 
     @Override
     public void partClosed(IWorkbenchPartReference partRef) {
-//			System.out.println("partClosed");
+      if (D) System.out.println("partClosed");
     }
 
     @Override
     public void partBroughtToTop(IWorkbenchPartReference partRef) {
-//			System.out.println("partBroughtToTop");
+      if (D) System.out.println("partBroughtToTop");
     }
 
     @Override
     public void partActivated(IWorkbenchPartReference partRef) {
-//			System.out.println("partActivated");
+      if (D) System.out.println("partActivated");
     }
   }
 

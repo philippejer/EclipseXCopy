@@ -24,14 +24,16 @@ import org.eclipse.swt.widgets.Shell;
 
 public class XCopy implements FocusListener, Listener, DisposeListener, SelectionListener {
 
+  public static final boolean D = false;
+
   @Override
   public void focusGained(FocusEvent e) {
-    // System.out.println("focusGained");
+    // if (D) System.out.println("focusGained");
   }
 
   @Override
   public void focusLost(FocusEvent e) {
-    // System.out.println("focusLost");
+    // if (D) System.out.println("focusLost");
     deactivate();
   }
 
@@ -45,34 +47,7 @@ public class XCopy implements FocusListener, Listener, DisposeListener, Selectio
 
   private void handleMouseDownEvent(Event event) {
     if (registeredWidgets.contains(event.widget)) {
-//      if (event.button == 2) {
-//        Display display = event.display;
-//        final StyledText widget = ((StyledText) (event.widget));
-//        if (!isActive()) {
-//          System.out.println("handleEvent: middle button down: click");
-//          event = new Event();
-//          event.display = display;
-//          event.type = SWT.MouseDown;
-//          event.button = 1;
-//          display.post(event);
-//          event = new Event();
-//          event.display = display;
-//          event.type = SWT.MouseUp;
-//          event.button = 1;
-//          display.post(event);
-//        } else {
-//          System.out.println("handleEvent: middle button down: deactivate");
-//          deactivate();
-//        }
-//        System.out.println("handleEvent: middle button down: paste");
-//        display.asyncExec(new Runnable() {
-//          @Override
-//          public void run() {
-//            widget.insert(selection);
-//            widget.setCaretOffset(widget.getCaretOffset() + selection.length());
-//          }
-//        });
-//      }
+      // Everything is now done on mouse up (better event ordering, avoids having multiple buttons down).
     }
   }
 
@@ -82,7 +57,7 @@ public class XCopy implements FocusListener, Listener, DisposeListener, Selectio
         Display display = event.display;
         final StyledText widget = ((StyledText) (event.widget));
         if (!isActive()) {
-          System.out.println("handleEvent: middle button up: click");
+          if (D) System.out.println("handleEvent: middle button up: click");
           event = new Event();
           event.display = display;
           event.type = SWT.MouseDown;
@@ -94,20 +69,23 @@ public class XCopy implements FocusListener, Listener, DisposeListener, Selectio
           event.button = 1;
           display.post(event);
         } else {
-          System.out.println("handleEvent: middle button up: deactivate");
+          if (D) System.out.println("handleEvent: middle button up: deactivate");
           deactivate();
         }
-        System.out.println("handleEvent: middle button up: paste");
+        if (D) System.out.println("handleEvent: middle button up: paste");
         display.asyncExec(new Runnable() {
           @Override
           public void run() {
+            // Need to get the caret offset before because insert() will sometimes move the caret (line start)
+            // for some reason.
+            int caretOffset = widget.getCaretOffset();
             widget.insert(selection);
-            widget.setCaretOffset(widget.getCaretOffset() + selection.length());
+            widget.setCaretOffset(caretOffset + selection.length());
           }
         });
       } else if (event.button == 1) {
         if (isActive()) {
-          System.out.println("handleEvent: left button up while active: copy");
+          if (D) System.out.println("handleEvent: left button up while active: deactivate");
           deactivate();
         }
       }
@@ -139,21 +117,21 @@ public class XCopy implements FocusListener, Listener, DisposeListener, Selectio
 
   @Override
   public void widgetSelected(SelectionEvent e) {
-    System.out.println("widgetSelected: active=" + isActive() + " x=" + e.x + " y=" + e.y);
+    if (D) System.out.println("widgetSelected: active: " + isActive() + ", x: " + e.x + ", y: " + e.y);
     StyledText widget = (StyledText) e.widget;
     if (e.x != e.y) {
-      System.out.println("widgetSelected: selection started");
+      if (D) System.out.println("widgetSelected: selection started");
       activate(widget);
       selection = widget.getSelectionText();
     } else {
-      System.out.println("widgetSelected: selection cleared");
+      if (D) System.out.println("widgetSelected: selection cleared");
       deactivate();
     }
   }
 
   @Override
   public void widgetDefaultSelected(SelectionEvent e) {
-//		System.out.println("widgetDefaultSelected");
+//    if (D) System.out.println("widgetDefaultSelected");
   }
 
   private static HashMap<Display, XCopy> registeredDisplays = new HashMap<Display, XCopy>();
@@ -188,7 +166,9 @@ public class XCopy implements FocusListener, Listener, DisposeListener, Selectio
 
   public synchronized static void removeStyledText(StyledText widget) {
     XCopy xMouse = (XCopy) registeredDisplays.get(widget.getDisplay());
-    if (xMouse != null) xMouse.unscrollStyledText(widget);
+    if (xMouse != null) {
+      xMouse.unscrollStyledText(widget);
+    }
   }
 
   public synchronized static void disposeAll() {
@@ -206,7 +186,9 @@ public class XCopy implements FocusListener, Listener, DisposeListener, Selectio
   }
 
   private void unscrollStyledText(StyledText widget) {
-    if (!registeredWidgets.contains(widget)) return;
+    if (!registeredWidgets.contains(widget)) {
+      return;
+    }
     registeredWidgets.remove(widget);
     widget.removeFocusListener(this);
     widget.removeDisposeListener(this);
