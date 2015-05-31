@@ -19,7 +19,7 @@ Of course, there are AutoHotKey scripts and other similar tools which are suppos
 The underlying reason is that they rely on the system clipboard, which causes various issues (timing issues, non-standard text controls, conflicts with "normal" copy and paste operations, etc.).
 Many of these issues can be fixed independently, but not all of them (I have spent many hours building a ridiculously complex AutoHotKey script that never fully worked).
 
-So I'm at the point where I'm convinced that this can only be done with some kind of direct programmatic access to the text controls (to get the selected text and insert pasted text).
+So I'm at the point where I'm convinced that this can only be done with some kind of direct programmatic access to the text controls (to get the selected text and insert text).
 Which is exactly what this plugin does: it registers a hook in the Eclipse workspace to be notified whenever a SWT text controls is created, and from there does its thing.
 
 Many thanks to Mateusz Matela (https://code.google.com/p/eclipse-mmb-scroller/) for sharing the code for this hook using reflection.
