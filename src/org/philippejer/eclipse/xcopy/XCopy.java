@@ -28,12 +28,12 @@ public class XCopy implements FocusListener, Listener, DisposeListener, Selectio
 
   @Override
   public void focusGained(FocusEvent e) {
-    // if (D) System.out.println("focusGained");
+//     if (D) System.out.println("focusGained");
   }
 
   @Override
   public void focusLost(FocusEvent e) {
-    // if (D) System.out.println("focusLost");
+//     if (D) System.out.println("focusLost");
     deactivate();
   }
 
