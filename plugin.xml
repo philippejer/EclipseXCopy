@@ -4,7 +4,7 @@
    <extension
          point="org.eclipse.ui.startup">
       <startup
-            class="org.philippejer.eclipse.xcopy.Startup">
+            class="jpe.xcopy.Startup">
       </startup>
    </extension>
 

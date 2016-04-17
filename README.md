@@ -1,4 +1,5 @@
 # EclipseXCopy
+
 Eclipse plugin for Unix-style copy and paste (select to copy, middle click to paste).
 
 ## License

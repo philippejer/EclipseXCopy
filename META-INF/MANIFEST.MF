@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: EclipseXCopy
-Bundle-SymbolicName: org.philippejer.eclipse.xcopy;singleton:=true
+Bundle-SymbolicName: jpe.xcopy;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: jpe.xcopy.Activator
 Require-Bundle: org.eclipse.ui,

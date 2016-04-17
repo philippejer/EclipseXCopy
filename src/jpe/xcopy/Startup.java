@@ -20,7 +20,7 @@ import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 
 public class Startup implements IStartup {
-  
+
   public static final boolean D = false;
 
   private class PartListener implements IPartListener2 {
@@ -91,7 +91,7 @@ public class Startup implements IStartup {
     }
   }
 
-  private TextViewer getTextViewer(AbstractTextEditor editor) {
+  private static TextViewer getTextViewer(AbstractTextEditor editor) {
     try {
       Method method = AbstractTextEditor.class.getDeclaredMethod("getSourceViewer", new Class[]{});
       method.setAccessible(true);
@@ -111,7 +111,7 @@ public class Startup implements IStartup {
     }
   }
 
-  private Object getEditor(final MultiPageEditorPart multiEditor, final int index) {
+  private static Object getEditor(final MultiPageEditorPart multiEditor, final int index) {
     final Object[] editor = new Object[1];
     IWorkbench workbench = PlatformUI.getWorkbench();
     workbench.getDisplay().syncExec(new Runnable() {
@@ -120,7 +120,7 @@ public class Startup implements IStartup {
         try {
           final Method getEditor = MultiPageEditorPart.class.getDeclaredMethod("getEditor", new Class[]{Integer.TYPE});
           getEditor.setAccessible(true);
-          editor[0] = getEditor.invoke(multiEditor, new Object[]{(Object) new Integer(index)});
+          editor[0] = getEditor.invoke(multiEditor, new Object[]{new Integer(index)});
         } catch (SecurityException e) {
           // continue
         } catch (NoSuchMethodException e) {
@@ -137,7 +137,7 @@ public class Startup implements IStartup {
     return editor[0];
   }
 
-  private TextViewer[] getTextViewers(final MultiPageEditorPart multiEditor) {
+  private static TextViewer[] getTextViewers(final MultiPageEditorPart multiEditor) {
     ArrayList<TextViewer> textViewers = new ArrayList<TextViewer>();
     try {
       final Method getPageCount = MultiPageEditorPart.class.getDeclaredMethod("getPageCount", new Class[0]);
@@ -163,10 +163,10 @@ public class Startup implements IStartup {
     } catch (ClassCastException e) {
       // continue
     }
-    return (TextViewer[]) textViewers.toArray(new TextViewer[0]);
+    return textViewers.toArray(new TextViewer[0]);
   }
 
-  private void tryToAttach(IWorkbenchPart part) {
+  private static void tryToAttach(IWorkbenchPart part) {
     if (part instanceof AbstractTextEditor) {
       TextViewer viewer = getTextViewer((AbstractTextEditor) part);
       if (viewer != null) {

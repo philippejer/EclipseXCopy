@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import javafx.scene.shape.Circle;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.DisposeEvent;
@@ -15,7 +13,6 @@ import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Region;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -148,7 +145,7 @@ public class XCopy implements FocusListener, Listener, DisposeListener, Selectio
 
   public synchronized static void addStyledText(StyledText widget) {
     Display display = widget.getDisplay();
-    XCopy xMouse = (XCopy) registeredDisplays.get(display);
+    XCopy xMouse = registeredDisplays.get(display);
     if (xMouse == null) {
       xMouse = new XCopy(display);
       registeredDisplays.put(display, xMouse);
@@ -165,7 +162,7 @@ public class XCopy implements FocusListener, Listener, DisposeListener, Selectio
   }
 
   public synchronized static void removeStyledText(StyledText widget) {
-    XCopy xMouse = (XCopy) registeredDisplays.get(widget.getDisplay());
+    XCopy xMouse = registeredDisplays.get(widget.getDisplay());
     if (xMouse != null) {
       xMouse.unscrollStyledText(widget);
     }
@@ -198,7 +195,7 @@ public class XCopy implements FocusListener, Listener, DisposeListener, Selectio
 
   private void dispose() {
     for (Iterator<StyledText> iterator = registeredWidgets.iterator(); iterator.hasNext();) {
-      StyledText widget = (StyledText) iterator.next();
+      StyledText widget = iterator.next();
       widget.removeFocusListener(this);
       widget.removeDisposeListener(this);
       widget.removeSelectionListener(this);
