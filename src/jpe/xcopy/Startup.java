@@ -1,4 +1,4 @@
-package org.philippejer.eclipse.xcopy;
+package jpe.xcopy;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

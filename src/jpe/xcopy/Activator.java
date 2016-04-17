@@ -1,4 +1,4 @@
-package org.philippejer.eclipse.xcopy;
+package jpe.xcopy;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;

@@ -1,4 +1,4 @@
-package org.philippejer.eclipse.xcopy;
+package jpe.xcopy;
 
 import java.util.HashMap;
 import java.util.HashSet;

@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: EclipseXCopy
 Bundle-SymbolicName: org.philippejer.eclipse.xcopy;singleton:=true
 Bundle-Version: 1.0.0
-Bundle-Activator: org.philippejer.eclipse.xcopy.Activator
+Bundle-Activator: jpe.xcopy.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
